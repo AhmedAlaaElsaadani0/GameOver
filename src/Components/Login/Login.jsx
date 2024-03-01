@@ -19,12 +19,10 @@ export default function Login() {
   }
 
   async function sendRegisterDataToAPI() {
-    let { data } = await axios.post(
-      "https://route-movies-api.vercel.app/signin",
-      user
-    );
-    setLoading(false);
-
+    let { data } = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin', user).catch((err) => {
+      setError(err.response.data.message)
+      setLoading(false)
+    })
     if (data.message === "success") {
       setError("Login Successful");
       localStorage.setItem("userToken", data.token);

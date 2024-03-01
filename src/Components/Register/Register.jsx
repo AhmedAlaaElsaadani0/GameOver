@@ -25,12 +25,18 @@ export default function Register() {
   }
 
   async function sendRegisterDataToAPI() {
-    let { data } = await axios.post(
-      "https://route-movies-api.vercel.app/signup",
-      user
-    );
-    setLoading(false);
-
+    let UserData={
+      ...user,
+        name: user["first_name"] + " " + user["last_name"],
+        rePassword: user["password"],
+        phone:"01033484848",
+    }
+    let { data } = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/signup', UserData).catch((err) => {
+      console.log(err);
+      setError(err.response.data.message)
+      setLoading(false)
+    })
+    console.log(data);
     if (data.message === "success") {
       setError("Registeration Successful");
       navigate("/login");
